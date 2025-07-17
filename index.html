@@ -1,1 +1,105 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyNotes - Note Taking App</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-sticky-note"></i> MyNotes</h2>
+                <div class="color-picker-container" id="color-picker-container" style="display: none;">
+                    <h4>Scegli colore nota:</h4>
+                    <div class="color-options">
+                        <button class="color-btn" data-color="#3498db" style="background-color: #3498db;" title="Blu"></button>
+                        <button class="color-btn" data-color="#e74c3c" style="background-color: #e74c3c;" title="Rosso"></button>
+                        <button class="color-btn" data-color="#2ecc71" style="background-color: #2ecc71;" title="Verde"></button>
+                        <button class="color-btn" data-color="#f39c12" style="background-color: #f39c12;" title="Arancione"></button>
+                        <button class="color-btn" data-color="#9b59b6" style="background-color: #9b59b6;" title="Viola"></button>
+                        <button class="color-btn" data-color="#1abc9c" style="background-color: #1abc9c;" title="Turchese"></button>
+                        <button class="color-btn" data-color="#e67e22" style="background-color: #e67e22;" title="Arancione scuro"></button>
+                        <button class="color-btn" data-color="#34495e" style="background-color: #34495e;" title="Grigio scuro"></button>
+                    </div>
+                </div>
+                <button id="add-note-btn" class="add-note-btn">
+                    <i class="fas fa-plus"></i> Nuova Nota
+                </button>
+                <div class="backup-controls">
+                    <button id="export-backup-btn" class="backup-btn">
+                        <i class="fas fa-download"></i> Esporta Backup
+                    </button>
+                    <button id="import-backup-btn" class="backup-btn">
+                        <i class="fas fa-upload"></i> Importa Backup
+                    </button>
+                    <input type="file" id="backup-file-input" accept=".json" style="display: none;">
+                </div>
+            </div>
+            <div class="notes-list" id="notes-list">
+                <!-- Notes will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Sub-notes Sidebar -->
+        <div class="sub-sidebar" id="sub-sidebar">
+            <div class="sub-sidebar-header">
+                <button id="close-sub-sidebar" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3 id="parent-note-title">Sotto-note</h3>
+                <div class="sub-color-picker-container" id="sub-color-picker-container" style="display: none;">
+                    <h4>Scegli colore sotto-nota:</h4>
+                    <div class="color-options">
+                        <button class="sub-color-btn" data-color="#3498db" style="background-color: #3498db;" title="Blu"></button>
+                        <button class="sub-color-btn" data-color="#e74c3c" style="background-color: #e74c3c;" title="Rosso"></button>
+                        <button class="sub-color-btn" data-color="#2ecc71" style="background-color: #2ecc71;" title="Verde"></button>
+                        <button class="sub-color-btn" data-color="#f39c12" style="background-color: #f39c12;" title="Arancione"></button>
+                        <button class="sub-color-btn" data-color="#9b59b6" style="background-color: #9b59b6;" title="Viola"></button>
+                        <button class="sub-color-btn" data-color="#1abc9c" style="background-color: #1abc9c;" title="Turchese"></button>
+                        <button class="sub-color-btn" data-color="#e67e22" style="background-color: #e67e22;" title="Arancione scuro"></button>
+                        <button class="sub-color-btn" data-color="#34495e" style="background-color: #34495e;" title="Grigio scuro"></button>
+                    </div>
+                </div>
+                <button id="add-sub-note-btn" class="add-note-btn">
+                    <i class="fas fa-plus"></i> Nuova Sotto-nota
+                </button>
+            </div>
+            <div class="sub-notes-list" id="sub-notes-list">
+                <!-- Sub-notes will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="editor-header">
+                <input type="text" id="note-title" placeholder="Titolo della nota..." class="note-title-input">
+                <div class="toolbar">
+                    <button onclick="formatText('bold')" title="Grassetto"><i class="fas fa-bold"></i></button>
+                    <button onclick="formatText('italic')" title="Corsivo"><i class="fas fa-italic"></i></button>
+                    <button onclick="formatText('underline')" title="Sottolineato"><i class="fas fa-underline"></i></button>
+                    <button onclick="formatText('insertUnorderedList')" title="Lista"><i class="fas fa-list-ul"></i></button>
+                    <button onclick="formatText('insertOrderedList')" title="Lista numerata"><i class="fas fa-list-ol"></i></button>
+                    <button onclick="insertTable()" title="Tabella"><i class="fas fa-table"></i></button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="editor" contenteditable="true" class="editor" placeholder="Inizia a scrivere la tua nota...">
+                    <p>Benvenuto in MyNotes! Inizia a scrivere qui...</p>
+                </div>
+            </div>
+            <div class="status-bar">
+                <span id="word-count">Parole: 0</span>
+                <span id="last-saved">Ultima modifica: mai</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
