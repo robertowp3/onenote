@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyNotes - Note Taking App</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* Fallback CSS per assicurarsi che almeno il layout di base funzioni */
+        .app-container { display: flex; height: 100vh; }
+        .sidebar { width: 300px; background: #2c3e50; color: white; }
+        .main-content { flex: 1; background: white; }
+    </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -102,5 +108,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
