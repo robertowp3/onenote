@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +7,19 @@
     <style>
         /* CSS completo incorporato */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #f5f5f5; 
             height: 100vh; 
             overflow: hidden; 
         }
-        
+
         .app-container { 
             display: flex; 
             height: 100vh; 
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             width: 300px;
@@ -30,22 +29,22 @@
             flex-direction: column;
             border-right: 1px solid #34495e;
         }
-        
+
         .sidebar-header {
             padding: 20px;
             border-bottom: 1px solid #34495e;
         }
-        
+
         .sidebar-header h2 {
             margin-bottom: 15px;
             font-size: 24px;
             color: white;
         }
-        
+
         .sidebar-header h2 i {
             margin-right: 8px;
         }
-        
+
         .add-note-btn {
             width: 100%;
             padding: 12px;
@@ -58,17 +57,17 @@
             transition: background-color 0.3s;
             margin-bottom: 10px;
         }
-        
+
         .add-note-btn:hover {
             background-color: #2980b9;
         }
-        
+
         .backup-controls {
             margin-top: 15px;
             display: flex;
             gap: 8px;
         }
-        
+
         .backup-btn {
             flex: 1;
             padding: 10px 8px;
@@ -84,19 +83,19 @@
             justify-content: center;
             gap: 5px;
         }
-        
+
         .backup-btn:hover {
             background-color: #229954;
         }
-        
+
         .backup-btn:nth-child(2) {
             background-color: #f39c12;
         }
-        
+
         .backup-btn:nth-child(2):hover {
             background-color: #e67e22;
         }
-        
+
         .color-picker-container {
             margin: 15px 0;
             padding: 15px;
@@ -104,19 +103,19 @@
             border-radius: 5px;
             border: 1px solid #2c3e50;
         }
-        
+
         .color-picker-container h4 {
             margin-bottom: 10px;
             font-size: 14px;
             color: #ecf0f1;
         }
-        
+
         .color-options {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
         }
-        
+
         .color-btn {
             width: 30px;
             height: 30px;
@@ -126,18 +125,18 @@
             transition: all 0.3s;
             position: relative;
         }
-        
+
         .color-btn:hover {
             transform: scale(1.1);
             border-color: #ecf0f1;
         }
-        
+
         .notes-list {
             flex: 1;
             overflow-y: auto;
             padding: 10px;
         }
-        
+
         .note-item {
             padding: 15px;
             margin-bottom: 5px;
@@ -148,20 +147,20 @@
             position: relative;
             border-left: 4px solid transparent;
         }
-        
+
         .note-item:hover {
             transform: translateX(2px);
         }
-        
+
         .note-item.active {
             background-color: #2c3e50;
             border-left-color: #ecf0f1;
         }
-        
+
         .note-item.has-color {
             border-left-width: 6px;
         }
-        
+
         .note-item h4 {
             font-size: 16px;
             margin-bottom: 5px;
@@ -170,7 +169,7 @@
             text-overflow: ellipsis;
             color: white;
         }
-        
+
         .note-item p {
             font-size: 12px;
             color: #bdc3c7;
@@ -178,7 +177,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
+
         .note-item .delete-btn {
             position: absolute;
             top: 10px;
@@ -194,7 +193,7 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .note-item .expand-btn {
             position: absolute;
             top: 10px;
@@ -210,7 +209,7 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .note-item .color-change-btn {
             position: absolute;
             top: 10px;
@@ -226,14 +225,14 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .note-item:hover .delete-btn,
         .note-item:hover .expand-btn,
         .note-item:hover .color-change-btn {
             opacity: 1;
         }
-        
-        /* Sub-sidebar Styles */
+
+        /* Sub-sidebar Styles (Livello 2) */
         .sub-sidebar {
             width: 0;
             background-color: #34495e;
@@ -244,24 +243,24 @@
             transition: width 0.3s ease;
             overflow: hidden;
         }
-        
+
         .sub-sidebar.open {
             width: 280px;
         }
-        
+
         .sub-sidebar-header {
             padding: 15px;
             border-bottom: 1px solid #2c3e50;
             position: relative;
         }
-        
+
         .sub-sidebar-header h3 {
             margin: 10px 0;
             font-size: 18px;
             padding-right: 30px;
             color: white;
         }
-        
+
         .sub-color-picker-container {
             margin: 15px 0;
             padding: 15px;
@@ -269,13 +268,13 @@
             border-radius: 5px;
             border: 1px solid #34495e;
         }
-        
+
         .sub-color-picker-container h4 {
             margin-bottom: 10px;
             font-size: 14px;
             color: #ecf0f1;
         }
-        
+
         .sub-color-btn {
             width: 30px;
             height: 30px;
@@ -285,7 +284,7 @@
             transition: all 0.3s;
             position: relative;
         }
-        
+
         .close-btn {
             position: absolute;
             top: 15px;
@@ -302,17 +301,17 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .close-btn:hover {
             background-color: #e74c3c;
         }
-        
+
         .sub-notes-list {
             flex: 1;
             overflow-y: auto;
             padding: 10px;
         }
-        
+
         .sub-note-item {
             padding: 12px;
             margin-bottom: 5px;
@@ -323,20 +322,20 @@
             position: relative;
             border-left: 3px solid #3498db;
         }
-        
+
         .sub-note-item.has-color {
             border-left-width: 5px;
         }
-        
+
         .sub-note-item:hover {
             background-color: #2f4456;
         }
-        
+
         .sub-note-item.active {
             background-color: #3498db;
             border-left-color: #2980b9;
         }
-        
+
         .sub-note-item h5 {
             font-size: 14px;
             margin-bottom: 5px;
@@ -345,7 +344,7 @@
             text-overflow: ellipsis;
             color: white;
         }
-        
+
         .sub-note-item p {
             font-size: 11px;
             color: #bdc3c7;
@@ -353,7 +352,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
+
         .sub-note-item .delete-btn {
             position: absolute;
             top: 8px;
@@ -369,11 +368,27 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
-        .sub-note-item .sub-color-change-btn {
+
+        .sub-note-item .expand-btn {
             position: absolute;
             top: 8px;
             right: 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            font-size: 9px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sub-note-item .sub-color-change-btn {
+            position: absolute;
+            top: 8px;
+            right: 52px;
             background: #9b59b6;
             color: white;
             border: none;
@@ -385,12 +400,150 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .sub-note-item:hover .delete-btn,
+        .sub-note-item:hover .expand-btn,
         .sub-note-item:hover .sub-color-change-btn {
             opacity: 1;
         }
-        
+
+        /* Sub-sub-sidebar Styles (Livello 3) */
+        .sub-sub-sidebar {
+            width: 0;
+            background-color: #1a252f;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #2c3e50;
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+
+        .sub-sub-sidebar.open {
+            width: 250px;
+        }
+
+        .sub-sub-sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid #2c3e50;
+            position: relative;
+        }
+
+        .sub-sub-sidebar-header h3 {
+            margin: 10px 0;
+            font-size: 16px;
+            padding-right: 30px;
+            color: white;
+        }
+
+        .sub-sub-color-picker-container {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #0f1419;
+            border-radius: 5px;
+            border: 1px solid #2c3e50;
+        }
+
+        .sub-sub-color-picker-container h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #ecf0f1;
+        }
+
+        .sub-sub-color-btn {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #1a252f;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .sub-sub-notes-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .sub-sub-note-item {
+            padding: 10px;
+            margin-bottom: 4px;
+            background-color: #0f1419;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+            border-left: 3px solid #e67e22;
+        }
+
+        .sub-sub-note-item.has-color {
+            border-left-width: 4px;
+        }
+
+        .sub-sub-note-item:hover {
+            background-color: #1e2833;
+        }
+
+        .sub-sub-note-item.active {
+            background-color: #e67e22;
+            border-left-color: #d35400;
+        }
+
+        .sub-sub-note-item h6 {
+            font-size: 13px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white;
+        }
+
+        .sub-sub-note-item p {
+            font-size: 10px;
+            color: #bdc3c7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sub-sub-note-item .delete-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sub-sub-note-item .sub-sub-color-change-btn {
+            position: absolute;
+            top: 6px;
+            right: 26px;
+            background: #9b59b6;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            font-size: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sub-sub-note-item:hover .delete-btn,
+        .sub-sub-note-item:hover .sub-sub-color-change-btn {
+            opacity: 1;
+        }
+
         /* Main Content Styles */
         .main-content {
             flex: 1;
@@ -398,13 +551,13 @@
             flex-direction: column;
             background-color: white;
         }
-        
+
         .editor-header {
             padding: 20px;
             border-bottom: 1px solid #ecf0f1;
             background-color: #fafafa;
         }
-        
+
         .note-title-input {
             width: 100%;
             font-size: 24px;
@@ -416,12 +569,12 @@
             padding: 5px 0;
             color: #2c3e50;
         }
-        
+
         .toolbar {
             display: flex;
             gap: 5px;
         }
-        
+
         .toolbar button {
             padding: 8px 12px;
             border: 1px solid #bdc3c7;
@@ -431,23 +584,24 @@
             transition: background-color 0.3s;
             color: #2c3e50;
         }
-        
+
         .toolbar button:hover {
             background-color: #ecf0f1;
         }
-        
+
         .toolbar button.active {
             background-color: #3498db;
             color: white;
             border-color: #3498db;
         }
-        
+
         .editor-container {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+            position: relative; /* Required for overlay positioning */
         }
-        
+
         .editor {
             min-height: 100%;
             outline: none;
@@ -455,13 +609,38 @@
             line-height: 1.6;
             color: #2c3e50;
         }
-        
+
         .editor:empty::before {
             content: attr(placeholder);
             color: #95a5a6;
             font-style: italic;
         }
-        
+
+        /* Drag and Drop Styles */
+        .editor-container.drag-over {
+            border: 3px dashed #3498db;
+        }
+
+        #drag-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 5px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #3498db;
+            z-index: 10;
+        }
+
+        #drag-overlay.active {
+            display: flex;
+        }
+
         .status-bar {
             padding: 10px 20px;
             background-color: #ecf0f1;
@@ -471,40 +650,92 @@
             font-size: 12px;
             color: #7f8c8d;
         }
-        
+
         .editor table {
             border-collapse: collapse;
             width: 100%;
             margin: 10px 0;
         }
-        
+
         .editor th,
         .editor td {
             border: 1px solid #bdc3c7;
             padding: 8px;
             text-align: left;
         }
-        
+
         .editor th {
             background-color: #ecf0f1;
             font-weight: bold;
         }
-        
+
         .editor ul,
         .editor ol {
             margin: 10px 0;
             padding-left: 20px;
         }
-        
+
         .editor li {
             margin: 5px 0;
+        }
+
+        /* Stili per immagini ridimensionabili */
+        .editor .resizable-image {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .editor .resizable-image:hover {
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            transform: scale(1.01);
+        }
+
+        .editor .selected-image {
+            border: 2px solid #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        .image-resize-controls {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-resize-controls input[type="range"] {
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 5px;
+            background: #ecf0f1;
+            outline: none;
+        }
+
+        .image-resize-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+        }
+
+        .image-resize-controls input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            border: none;
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar -->
+        <!-- Sidebar Principale -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <h2><i class="fas fa-sticky-note"></i> MyNotes</h2>
@@ -539,7 +770,7 @@
             </div>
         </div>
 
-        <!-- Sub-notes Sidebar -->
+        <!-- Sub-sidebar (Livello 2) -->
         <div class="sub-sidebar" id="sub-sidebar">
             <div class="sub-sidebar-header">
                 <button id="close-sub-sidebar" class="close-btn">
@@ -568,6 +799,35 @@
             </div>
         </div>
 
+        <!-- Sub-sub-sidebar (Livello 3) -->
+        <div class="sub-sub-sidebar" id="sub-sub-sidebar">
+            <div class="sub-sub-sidebar-header">
+                <button id="close-sub-sub-sidebar" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3 id="parent-sub-note-title">Sotto-sotto-note</h3>
+                <div class="sub-sub-color-picker-container" id="sub-sub-color-picker-container" style="display: none;">
+                    <h4>Scegli colore:</h4>
+                    <div class="color-options">
+                        <button class="sub-sub-color-btn" data-color="#3498db" style="background-color: #3498db;" title="Blu"></button>
+                        <button class="sub-sub-color-btn" data-color="#e74c3c" style="background-color: #e74c3c;" title="Rosso"></button>
+                        <button class="sub-sub-color-btn" data-color="#2ecc71" style="background-color: #2ecc71;" title="Verde"></button>
+                        <button class="sub-sub-color-btn" data-color="#f39c12" style="background-color: #f39c12;" title="Arancione"></button>
+                        <button class="sub-sub-color-btn" data-color="#9b59b6" style="background-color: #9b59b6;" title="Viola"></button>
+                        <button class="sub-sub-color-btn" data-color="#1abc9c" style="background-color: #1abc9c;" title="Turchese"></button>
+                        <button class="sub-sub-color-btn" data-color="#e67e22" style="background-color: #e67e22;" title="Arancione scuro"></button>
+                        <button class="sub-sub-color-btn" data-color="#34495e" style="background-color: #34495e;" title="Grigio scuro"></button>
+                    </div>
+                </div>
+                <button id="add-sub-sub-note-btn" class="add-note-btn">
+                    <i class="fas fa-plus"></i> Nuova Sotto-sotto-nota
+                </button>
+            </div>
+            <div class="sub-sub-notes-list" id="sub-sub-notes-list">
+                <!-- Sub-sub-notes will be dynamically added here -->
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="main-content">
             <div class="editor-header">
@@ -582,6 +842,10 @@
                 </div>
             </div>
             <div class="editor-container">
+                <div id="drag-overlay">
+                    <i class="fas fa-upload" style="font-size: 3em; margin-bottom: 10px;"></i>
+                    <p>Trascina qui le immagini</p>
+                </div>
                 <div id="editor" contenteditable="true" class="editor" placeholder="Inizia a scrivere la tua nota...">
                     <p>Benvenuto in MyNotes! Inizia a scrivere qui...</p>
                 </div>
@@ -599,37 +863,58 @@
                 this.notes = JSON.parse(localStorage.getItem('notes')) || [];
                 this.currentNoteId = null;
                 this.currentParentNoteId = null;
+                this.currentSubParentNoteId = null;
+                this.noteLevel = 0; // 0 = main note, 1 = sub-note, 2 = sub-sub-note
                 this.autoSaveTimer = null;
                 this.isSubSidebarOpen = false;
+                this.isSubSubSidebarOpen = false;
                 this.selectedColor = '#3498db';
                 this.selectedSubColor = '#3498db';
-                
+                this.selectedSubSubColor = '#e67e22';
+
                 this.init();
             }
-            
+
             init() {
                 this.bindEvents();
                 this.renderNotesList();
-                
+
                 if (this.notes.length > 0) {
                     this.loadNote(this.notes[0].id);
                 } else {
                     this.createNewNote();
                 }
-                
+
                 // Auto-save every 2 seconds
                 setInterval(() => this.autoSave(), 2000);
-                
+
                 // Update word count
                 setInterval(() => this.updateWordCount(), 1000);
+
+                // Auto-backup every 5 minutes
+                setInterval(() => this.performAutoBackup(), 5 * 60 * 1000);
+
+                // Backup when page loads (after 10 seconds)
+                setTimeout(() => this.performAutoBackup(), 10000);
+
+                // Backup when page is about to close
+                window.addEventListener('beforeunload', () => {
+                    this.performAutoBackup();
+                });
+
+                // Setup Drag and Drop
+                this.setupDragAndDrop();
+
+                // Setup existing images
+                this.setupExistingImages();
             }
-            
+
             bindEvents() {
                 // Add new note button
                 document.getElementById('add-note-btn').addEventListener('click', () => {
                     this.toggleColorPicker();
                 });
-                
+
                 // Color picker buttons
                 document.querySelectorAll('.color-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -638,12 +923,12 @@
                         this.hideColorPicker();
                     });
                 });
-                
+
                 // Add sub-note button
                 document.getElementById('add-sub-note-btn').addEventListener('click', () => {
                     this.toggleSubColorPicker();
                 });
-                
+
                 // Sub-note color picker buttons
                 document.querySelectorAll('.sub-color-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -652,37 +937,56 @@
                         this.hideSubColorPicker();
                     });
                 });
-                
+
+                // Add sub-sub-note button
+                document.getElementById('add-sub-sub-note-btn').addEventListener('click', () => {
+                    this.toggleSubSubColorPicker();
+                });
+
+                // Sub-sub-note color picker buttons
+                document.querySelectorAll('.sub-sub-color-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.selectSubSubColor(e.target.dataset.color);
+                        this.createNewSubSubNote();
+                        this.hideSubSubColorPicker();
+                    });
+                });
+
                 // Close sub-sidebar button
                 document.getElementById('close-sub-sidebar').addEventListener('click', () => {
                     this.closeSubSidebar();
                 });
-                
+
+                // Close sub-sub-sidebar button
+                document.getElementById('close-sub-sub-sidebar').addEventListener('click', () => {
+                    this.closeSubSubSidebar();
+                });
+
                 // Note title input
                 document.getElementById('note-title').addEventListener('input', () => {
                     this.autoSave();
                 });
-                
+
                 // Editor content changes
                 document.getElementById('editor').addEventListener('input', () => {
                     this.autoSave();
                 });
-                
+
                 // Backup export button
                 document.getElementById('export-backup-btn').addEventListener('click', () => {
                     this.exportBackup();
                 });
-                
+
                 // Backup import button
                 document.getElementById('import-backup-btn').addEventListener('click', () => {
                     document.getElementById('backup-file-input').click();
                 });
-                
+
                 // File input for backup import
                 document.getElementById('backup-file-input').addEventListener('change', (e) => {
                     this.importBackup(e.target.files[0]);
                 });
-                
+
                 // Prevent default behavior for some keys
                 document.getElementById('editor').addEventListener('keydown', (e) => {
                     if (e.key === 'Tab') {
@@ -691,7 +995,7 @@
                     }
                 });
             }
-            
+
             createNewNote() {
                 const newNote = {
                     id: Date.now().toString(),
@@ -702,73 +1006,101 @@
                     subNotes: [],
                     color: this.selectedColor
                 };
-                
+
                 this.notes.unshift(newNote);
                 this.saveNotes();
                 this.renderNotesList();
                 this.loadNote(newNote.id);
                 this.closeSubSidebar();
+                this.closeSubSubSidebar();
             }
-            
+
             loadNote(noteId) {
                 const note = this.notes.find(n => n.id === noteId);
                 if (!note) return;
-                
+
                 this.currentNoteId = noteId;
                 this.currentParentNoteId = null;
-                
+                this.currentSubParentNoteId = null;
+                this.noteLevel = 0;
+
                 document.getElementById('note-title').value = note.title;
                 document.getElementById('editor').innerHTML = note.content;
-                
+
+                // Setup immagini nel contenuto caricato
+                setTimeout(() => {
+                    this.setupExistingImages();
+                }, 100);
+
                 // Update active note in sidebar
                 document.querySelectorAll('.note-item').forEach(item => {
                     item.classList.remove('active');
                 });
-                
+
                 const noteItem = document.querySelector(`[data-note-id="${noteId}"]`);
                 if (noteItem) {
                     noteItem.classList.add('active');
                 }
-                
+
                 this.updateLastSaved(note.updatedAt);
             }
-            
+
             deleteNote(noteId) {
                 if (this.notes.length <= 1) {
                     alert('Non puoi eliminare l\'ultima nota!');
                     return;
                 }
-                
+
                 if (confirm('Sei sicuro di voler eliminare questa nota?')) {
                     this.notes = this.notes.filter(n => n.id !== noteId);
                     this.saveNotes();
                     this.renderNotesList();
-                    
+
                     if (this.currentNoteId === noteId) {
                         this.loadNote(this.notes[0].id);
                     }
                 }
             }
-            
+
             autoSave() {
                 if (!this.currentNoteId) return;
-                
+
                 const title = document.getElementById('note-title').value;
                 const content = document.getElementById('editor').innerHTML;
-                
-                // Check if it's a sub-note
-                if (this.currentParentNoteId) {
+
+                if (this.noteLevel === 2) {
+                    // Sub-sub-note
                     const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
                     if (!parentNote || !parentNote.subNotes) return;
-                    
+
+                    const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                    if (!subNote || !subNote.subNotes) return;
+
+                    const subSubNote = subNote.subNotes.find(n => n.id === this.currentNoteId);
+                    if (!subSubNote) return;
+
+                    if (subSubNote.title !== title || subSubNote.content !== content) {
+                        subSubNote.title = title || 'Senza titolo';
+                        subSubNote.content = content;
+                        subSubNote.updatedAt = new Date().toISOString();
+
+                        this.saveNotes();
+                        this.renderSubSubNotesList();
+                        this.updateLastSaved(subSubNote.updatedAt);
+                    }
+                } else if (this.noteLevel === 1) {
+                    // Sub-note
+                    const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                    if (!parentNote || !parentNote.subNotes) return;
+
                     const subNote = parentNote.subNotes.find(n => n.id === this.currentNoteId);
                     if (!subNote) return;
-                    
+
                     if (subNote.title !== title || subNote.content !== content) {
                         subNote.title = title || 'Senza titolo';
                         subNote.content = content;
                         subNote.updatedAt = new Date().toISOString();
-                        
+
                         this.saveNotes();
                         this.renderSubNotesList();
                         this.updateLastSaved(subNote.updatedAt);
@@ -777,44 +1109,44 @@
                     // Regular note
                     const note = this.notes.find(n => n.id === this.currentNoteId);
                     if (!note) return;
-                    
+
                     if (note.title !== title || note.content !== content) {
                         note.title = title || 'Senza titolo';
                         note.content = content;
                         note.updatedAt = new Date().toISOString();
-                        
+
                         this.saveNotes();
                         this.renderNotesList();
                         this.updateLastSaved(note.updatedAt);
                     }
                 }
             }
-            
+
             saveNotes() {
                 localStorage.setItem('notes', JSON.stringify(this.notes));
             }
-            
+
             renderNotesList() {
                 const notesList = document.getElementById('notes-list');
                 notesList.innerHTML = '';
-                
+
                 this.notes.forEach(note => {
                     const noteItem = document.createElement('div');
                     noteItem.className = 'note-item';
                     noteItem.setAttribute('data-note-id', note.id);
-                    
+
                     const preview = this.getTextPreview(note.content);
                     const date = new Date(note.updatedAt).toLocaleDateString('it-IT');
-                    
+
                     const hasSubNotes = note.subNotes && note.subNotes.length > 0;
                     const expandIcon = hasSubNotes ? '<i class="fas fa-chevron-right expand-icon"></i>' : '';
-                    
+
                     // Applica il colore della nota se presente
                     if (note.color) {
                         noteItem.style.borderLeftColor = note.color;
                         noteItem.classList.add('has-color');
                     }
-                    
+
                     noteItem.innerHTML = `
                         <h4>${note.title} ${expandIcon}</h4>
                         <p>${preview} • ${date}</p>
@@ -828,7 +1160,7 @@
                             <i class="fas fa-palette"></i>
                         </button>
                     `;
-                    
+
                     noteItem.addEventListener('click', (e) => {
                         if (!e.target.closest('.delete-btn') && !e.target.closest('.expand-btn') && !e.target.closest('.color-change-btn')) {
                             this.loadNote(note.id);
@@ -837,34 +1169,45 @@
                                 this.openSubSidebar(note.id);
                             } else {
                                 this.closeSubSidebar();
+                                this.closeSubSubSidebar();
                             }
                         }
                     });
-                    
+
                     notesList.appendChild(noteItem);
                 });
             }
-            
+
             getTextPreview(html) {
                 const temp = document.createElement('div');
                 temp.innerHTML = html;
                 const text = temp.textContent || temp.innerText || '';
                 return text.length > 50 ? text.substring(0, 50) + '...' : text;
             }
-            
+
             updateWordCount() {
                 const editor = document.getElementById('editor');
                 const text = editor.textContent || editor.innerText || '';
                 const words = text.trim() ? text.trim().split(/\s+/).length : 0;
                 document.getElementById('word-count').textContent = `Parole: ${words}`;
             }
-            
+
             updateLastSaved(timestamp) {
                 const date = new Date(timestamp);
                 const formatted = date.toLocaleString('it-IT');
-                document.getElementById('last-saved').textContent = `Ultima modifica: ${formatted}`;
+                
+                // Mostra anche l'ultimo backup automatico
+                const lastAutoBackup = localStorage.getItem('mynotes-last-auto-backup');
+                let backupText = '';
+                if (lastAutoBackup) {
+                    const backupDate = new Date(lastAutoBackup);
+                    const backupFormatted = backupDate.toLocaleString('it-IT');
+                    backupText = ` • Ultimo backup: ${backupFormatted}`;
+                }
+                
+                document.getElementById('last-saved').textContent = `Ultima modifica: ${formatted}${backupText}`;
             }
-            
+
             toggleColorPicker() {
                 const colorPicker = document.getElementById('color-picker-container');
                 if (colorPicker.style.display === 'none' || !colorPicker.style.display) {
@@ -873,37 +1216,37 @@
                     this.hideColorPicker();
                 }
             }
-            
+
             hideColorPicker() {
                 document.getElementById('color-picker-container').style.display = 'none';
             }
-            
+
             selectColor(color) {
                 this.selectedColor = color;
-                
-                // Aggiorna visivamente il colore selezionato
+
+                // Aggiorna visualmente il colore selezionato
                 document.querySelectorAll('.color-btn').forEach(btn => {
                     btn.classList.remove('selected');
                 });
-                
+
                 document.querySelector(`[data-color="${color}"]`).classList.add('selected');
             }
-            
+
             changeNoteColor(noteId) {
                 const note = this.notes.find(n => n.id === noteId);
                 if (!note) return;
-                
+
                 // Mostra il selettore colori
                 this.showColorChangePicker(noteId);
             }
-            
+
             showColorChangePicker(noteId) {
                 const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
                 const colorHtml = colors.map(color => 
                     `<button onclick="app.applyColorToNote('${noteId}', '${color}')" 
                      style="background-color: ${color}; width: 25px; height: 25px; margin: 2px; border: none; border-radius: 50%; cursor: pointer;"></button>`
                 ).join('');
-                
+
                 if (confirm('Vuoi cambiare il colore di questa nota?\n\nClicca OK e poi scegli un colore.')) {
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = `
@@ -924,7 +1267,7 @@
                     document.body.appendChild(tempDiv);
                 }
             }
-            
+
             applyColorToNote(noteId, color) {
                 const note = this.notes.find(n => n.id === noteId);
                 if (note) {
@@ -932,13 +1275,13 @@
                     note.updatedAt = new Date().toISOString();
                     this.saveNotes();
                     this.renderNotesList();
-                    
+
                     // Rimuovi il picker temporaneo
                     const picker = document.querySelector('div[style*="position: fixed"]')?.parentElement;
                     if (picker) picker.remove();
                 }
             }
-            
+
             toggleSubColorPicker() {
                 const colorPicker = document.getElementById('sub-color-picker-container');
                 if (colorPicker.style.display === 'none' || !colorPicker.style.display) {
@@ -947,47 +1290,494 @@
                     this.hideSubColorPicker();
                 }
             }
-            
+
             hideSubColorPicker() {
                 document.getElementById('sub-color-picker-container').style.display = 'none';
             }
-            
+
             selectSubColor(color) {
                 this.selectedSubColor = color;
-                
+
                 // Aggiorna visualmente il colore selezionato
                 document.querySelectorAll('.sub-color-btn').forEach(btn => {
                     btn.classList.remove('selected');
                 });
-                
-                document.querySelector(`[data-color="${color}"]`).classList.add('selected');
+
+                document.querySelector(`.sub-color-btn[data-color="${color}"]`).classList.add('selected');
             }
-            
-            changeSubNoteColor(subNoteId) {
-                if (!this.currentParentNoteId) return;
-                
+
+            toggleSubSubColorPicker() {
+                const colorPicker = document.getElementById('sub-sub-color-picker-container');
+                if (colorPicker.style.display === 'none' || !colorPicker.style.display) {
+                    colorPicker.style.display = 'block';
+                } else {
+                    this.hideSubSubColorPicker();
+                }
+            }
+
+            hideSubSubColorPicker() {
+                document.getElementById('sub-sub-color-picker-container').style.display = 'none';
+            }
+
+            selectSubSubColor(color) {
+                this.selectedSubSubColor = color;
+
+                // Aggiorna visualmente il colore selezionato
+                document.querySelectorAll('.sub-sub-color-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+
+                document.querySelector(`.sub-sub-color-btn[data-color="${color}"]`).classList.add('selected');
+            }
+
+            exportBackup() {
+                try {
+                    const backupData = {
+                        version: "1.0",
+                        exportDate: new Date().toISOString(),
+                        notes: this.notes,
+                        appName: "MyNotes"
+                    };
+
+                    const dataStr = JSON.stringify(backupData, null, 2);
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(dataBlob);
+                    link.download = `mynotes-backup-${new Date().toISOString().split('T')[0]}.json`;
+
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    alert('Backup esportato con successo!');
+                } catch (error) {
+                    console.error('Errore durante l\'esportazione:', error);
+                    alert('Errore durante l\'esportazione del backup.');
+                }
+            }
+
+            importBackup(file) {
+                if (!file) return;
+
+                if (!file.name.endsWith('.json')) {
+                    alert('Per favore seleziona un file JSON valido.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const backupData = JSON.parse(e.target.result);
+
+                        // Verifica la struttura del backup
+                        if (!backupData.notes || !Array.isArray(backupData.notes)) {
+                            throw new Error('Formato backup non valido');
+                        }
+
+                        // Conferma importazione
+                        const confirmMessage = `Vuoi importare questo backup?\n\n` +
+                            `Data esportazione: ${backupData.exportDate ? new Date(backupData.exportDate).toLocaleString('it-IT') : 'Sconosciuta'}\n` +
+                            `Numero di note: ${backupData.notes.length}\n\n` +
+                            `ATTENZIONE: Questo sostituirà tutte le note esistenti!`;
+
+                        if (!confirm(confirmMessage)) {
+                            return;
+                        }
+
+                        // Importa le note
+                        this.notes = backupData.notes;
+                        this.saveNotes();
+                        this.renderNotesList();
+                        this.closeSubSidebar();
+                        this.closeSubSubSidebar();
+
+                        // Carica la prima nota se disponibile
+                        if (this.notes.length > 0) {
+                            this.loadNote(this.notes[0].id);
+                        } else {
+                            this.createNewNote();
+                        }
+
+                        alert(`Backup importato con successo! ${this.notes.length} note ripristinate.`);
+
+                    } catch (error) {
+                        console.error('Errore durante l\'importazione:', error);
+                        alert('Errore durante l\'importazione del backup. Verifica che il file sia valido.');
+                    }
+                };
+
+                reader.readAsText(file);
+
+                // Reset dell'input file
+                document.getElementById('backup-file-input').value = '';
+            }
+
+            openSubSidebar(noteId) {
+                this.currentParentNoteId = noteId;
+                const note = this.notes.find(n => n.id === noteId);
+                if (!note) return;
+
+                // Initialize subNotes array if it doesn't exist
+                if (!note.subNotes) {
+                    note.subNotes = [];
+                    this.saveNotes();
+                }
+
+                document.getElementById('parent-note-title').textContent = `Sotto-note di: ${note.title}`;
+                document.getElementById('sub-sidebar').classList.add('open');
+                this.isSubSidebarOpen = true;
+                this.renderSubNotesList();
+                this.closeSubSubSidebar();
+            }
+
+            closeSubSidebar() {
+                document.getElementById('sub-sidebar').classList.remove('open');
+                this.isSubSidebarOpen = false;
+                this.currentParentNoteId = null;
+                this.closeSubSubSidebar();
+            }
+
+            openSubSubSidebar(subNoteId) {
+                this.currentSubParentNoteId = subNoteId;
                 const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
                 if (!parentNote || !parentNote.subNotes) return;
-                
+
                 const subNote = parentNote.subNotes.find(n => n.id === subNoteId);
                 if (!subNote) return;
-                
+
+                // Initialize subNotes array if it doesn't exist
+                if (!subNote.subNotes) {
+                    subNote.subNotes = [];
+                    this.saveNotes();
+                }
+
+                document.getElementById('parent-sub-note-title').textContent = `Sotto-note di: ${subNote.title}`;
+                document.getElementById('sub-sub-sidebar').classList.add('open');
+                this.isSubSubSidebarOpen = true;
+                this.renderSubSubNotesList();
+            }
+
+            closeSubSubSidebar() {
+                document.getElementById('sub-sub-sidebar').classList.remove('open');
+                this.isSubSubSidebarOpen = false;
+                this.currentSubParentNoteId = null;
+            }
+
+            createNewSubNote() {
+                if (!this.currentParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote) return;
+
+                const newSubNote = {
+                    id: Date.now().toString(),
+                    title: 'Nuova Sotto-nota',
+                    content: '<p>Inizia a scrivere qui...</p>',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    subNotes: [],
+                    color: this.selectedSubColor
+                };
+
+                if (!parentNote.subNotes) {
+                    parentNote.subNotes = [];
+                }
+
+                parentNote.subNotes.unshift(newSubNote);
+                this.saveNotes();
+                this.renderSubNotesList();
+                this.renderNotesList(); // Update main sidebar to show expand icon
+                this.loadSubNote(newSubNote.id);
+                this.closeSubSubSidebar();
+            }
+
+            createNewSubSubNote() {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote) return;
+
+                const newSubSubNote = {
+                    id: Date.now().toString(),
+                    title: 'Nuova Sotto-sotto-nota',
+                    content: '<p>Inizia a scrivere qui...</p>',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    color: this.selectedSubSubColor
+                };
+
+                if (!subNote.subNotes) {
+                    subNote.subNotes = [];
+                }
+
+                subNote.subNotes.unshift(newSubSubNote);
+                this.saveNotes();
+                this.renderSubSubNotesList();
+                this.renderSubNotesList(); // Update sub-sidebar to show expand icon
+                this.loadSubSubNote(newSubSubNote.id);
+            }
+
+            loadSubNote(subNoteId) {
+                if (!this.currentParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === subNoteId);
+                if (!subNote) return;
+
+                this.currentNoteId = subNoteId;
+                this.noteLevel = 1;
+                this.currentSubParentNoteId = null;
+
+                document.getElementById('note-title').value = subNote.title;
+                document.getElementById('editor').innerHTML = subNote.content;
+
+                // Update active sub-note in sidebar
+                document.querySelectorAll('.sub-note-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const subNoteItem = document.querySelector(`[data-sub-note-id="${subNoteId}"]`);
+                if (subNoteItem) {
+                    subNoteItem.classList.add('active');
+                }
+
+                this.updateLastSaved(subNote.updatedAt);
+            }
+
+            loadSubSubNote(subSubNoteId) {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote || !subNote.subNotes) return;
+
+                const subSubNote = subNote.subNotes.find(n => n.id === subSubNoteId);
+                if (!subSubNote) return;
+
+                this.currentNoteId = subSubNoteId;
+                this.noteLevel = 2;
+
+                document.getElementById('note-title').value = subSubNote.title;
+                document.getElementById('editor').innerHTML = subSubNote.content;
+
+                // Update active sub-sub-note in sidebar
+                document.querySelectorAll('.sub-sub-note-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const subSubNoteItem = document.querySelector(`[data-sub-sub-note-id="${subSubNoteId}"]`);
+                if (subSubNoteItem) {
+                    subSubNoteItem.classList.add('active');
+                }
+
+                this.updateLastSaved(subSubNote.updatedAt);
+            }
+
+            deleteSubNote(subNoteId) {
+                if (!this.currentParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                if (confirm('Sei sicuro di voler eliminare questa sotto-nota?')) {
+                    parentNote.subNotes = parentNote.subNotes.filter(n => n.id !== subNoteId);
+                    this.saveNotes();
+                    this.renderSubNotesList();
+                    this.renderNotesList(); // Update main sidebar
+
+                    if (this.currentNoteId === subNoteId) {
+                        if (parentNote.subNotes.length > 0) {
+                            this.loadSubNote(parentNote.subNotes[0].id);
+                        } else {
+                            this.loadNote(this.currentParentNoteId);
+                        }
+                    }
+                }
+            }
+
+            deleteSubSubNote(subSubNoteId) {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote || !subNote.subNotes) return;
+
+                if (confirm('Sei sicuro di voler eliminare questa sotto-sotto-nota?')) {
+                    subNote.subNotes = subNote.subNotes.filter(n => n.id !== subSubNoteId);
+                    this.saveNotes();
+                    this.renderSubSubNotesList();
+                    this.renderSubNotesList(); // Update sub-sidebar
+
+                    if (this.currentNoteId === subSubNoteId) {
+                        if (subNote.subNotes.length > 0) {
+                            this.loadSubSubNote(subNote.subNotes[0].id);
+                        } else {
+                            this.loadSubNote(this.currentSubParentNoteId);
+                        }
+                    }
+                }
+            }
+
+            renderSubNotesList() {
+                if (!this.currentParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote) return;
+
+                const subNotesList = document.getElementById('sub-notes-list');
+                subNotesList.innerHTML = '';
+
+                const subNotes = parentNote.subNotes || [];
+
+                subNotes.forEach(subNote => {
+                    const subNoteItem = document.createElement('div');
+                    subNoteItem.className = 'sub-note-item';
+                    subNoteItem.setAttribute('data-sub-note-id', subNote.id);
+
+                    const preview = this.getTextPreview(subNote.content);
+                    const date = new Date(subNote.updatedAt).toLocaleDateString('it-IT');
+
+                    const hasSubSubNotes = subNote.subNotes && subNote.subNotes.length > 0;
+                    const expandIcon = hasSubSubNotes ? '<i class="fas fa-chevron-right expand-icon"></i>' : '';
+
+                    // Applica il colore della sotto-nota se presente
+                    if (subNote.color) {
+                        subNoteItem.style.borderLeftColor = subNote.color;
+                        subNoteItem.classList.add('has-color');
+                    }
+
+                    subNoteItem.innerHTML = `
+                        <h5>${subNote.title} ${expandIcon}</h5>
+                        <p>${preview} • ${date}</p>
+                        <button class="delete-btn" onclick="app.deleteSubNote('${subNote.id}')" title="Elimina sotto-nota">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="expand-btn" onclick="app.openSubSubSidebar('${subNote.id}')" title="Vedi sotto-sotto-note">
+                            <i class="fas fa-folder-open"></i>
+                        </button>
+                        <button class="sub-color-change-btn" onclick="app.changeSubNoteColor('${subNote.id}')" title="Cambia colore">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                    `;
+
+                    subNoteItem.addEventListener('click', (e) => {
+                        if (!e.target.closest('.delete-btn') && 
+                            !e.target.closest('.expand-btn') && 
+                            !e.target.closest('.sub-color-change-btn')) {
+                            this.loadSubNote(subNote.id);
+                            if (hasSubSubNotes) {
+                                this.openSubSubSidebar(subNote.id);
+                            } else {
+                                this.closeSubSubSidebar();
+                            }
+                        }
+                    });
+
+                    subNotesList.appendChild(subNoteItem);
+                });
+            }
+
+            renderSubSubNotesList() {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote) return;
+
+                const subSubNotesList = document.getElementById('sub-sub-notes-list');
+                subSubNotesList.innerHTML = '';
+
+                const subSubNotes = subNote.subNotes || [];
+
+                subSubNotes.forEach(subSubNote => {
+                    const subSubNoteItem = document.createElement('div');
+                    subSubNoteItem.className = 'sub-sub-note-item';
+                    subSubNoteItem.setAttribute('data-sub-sub-note-id', subSubNote.id);
+
+                    const preview = this.getTextPreview(subSubNote.content);
+                    const date = new Date(subSubNote.updatedAt).toLocaleDateString('it-IT');
+
+                    // Applica il colore della sotto-sotto-nota se presente
+                    if (subSubNote.color) {
+                        subSubNoteItem.style.borderLeftColor = subSubNote.color;
+                        subSubNoteItem.classList.add('has-color');
+                    }
+
+                    subSubNoteItem.innerHTML = `
+                        <h6>${subSubNote.title}</h6>
+                        <p>${preview} • ${date}</p>
+                        <button class="delete-btn" onclick="app.deleteSubSubNote('${subSubNote.id}')" title="Elimina sotto-sotto-nota">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="sub-sub-color-change-btn" onclick="app.changeSubSubNoteColor('${subSubNote.id}')" title="Cambia colore">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                    `;
+
+                    subSubNoteItem.addEventListener('click', (e) => {
+                        if (!e.target.closest('.delete-btn') && 
+                            !e.target.closest('.sub-sub-color-change-btn')) {
+                            this.loadSubSubNote(subSubNote.id);
+                        }
+                    });
+
+                    subSubNotesList.appendChild(subSubNoteItem);
+                });
+            }
+
+            changeSubNoteColor(subNoteId) {
+                if (!this.currentParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === subNoteId);
+                if (!subNote) return;
+
                 // Mostra il selettore colori per sotto-note
                 this.showSubColorChangePicker(subNoteId);
             }
-            
+
+            changeSubSubNoteColor(subSubNoteId) {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote || !subNote.subNotes) return;
+
+                const subSubNote = subNote.subNotes.find(n => n.id === subSubNoteId);
+                if (!subSubNote) return;
+
+                // Mostra il selettore colori per sotto-sotto-note
+                this.showSubSubColorChangePicker(subSubNoteId);
+            }
+
             showSubColorChangePicker(subNoteId) {
                 const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
                 const colorHtml = colors.map(color => 
                     `<button onclick="app.applyColorToSubNote('${subNoteId}', '${color}')" 
                      style="background-color: ${color}; width: 25px; height: 25px; margin: 2px; border: none; border-radius: 50%; cursor: pointer;"></button>`
                 ).join('');
-                
+
                 if (confirm('Vuoi cambiare il colore di questa sotto-nota?\n\nClicca OK e poi scegli un colore.')) {
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = `
                         <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                             background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;">
+                             background: white; padding: 20px;border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;">
                             <h3 style="color: #2c3e50; margin-bottom: 15px;">Scegli un colore per la sotto-nota:</h3>
                             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px;">
                                 ${colorHtml}
@@ -1003,252 +1793,504 @@
                     document.body.appendChild(tempDiv);
                 }
             }
-            
+
+            showSubSubColorChangePicker(subSubNoteId) {
+                const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+                const colorHtml = colors.map(color => 
+                    `<button onclick="app.applyColorToSubSubNote('${subSubNoteId}', '${color}')" 
+                     style="background-color: ${color}; width: 25px; height: 25px; margin: 2px; border: none; border-radius: 50%; cursor: pointer;"></button>`
+                ).join('');
+
+                if (confirm('Vuoi cambiare il colore di questa sotto-sotto-nota?\n\nClicca OK e poi scegli un colore.')) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = `
+                        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                             background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px;">Scegli un colore per la sotto-sotto-nota:</h3>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px;">
+                                ${colorHtml}
+                            </div>
+                            <button onclick="this.parentElement.parentElement.remove()" 
+                                    style="background: #95a5a6; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                                Annulla
+                            </button>
+                        </div>
+                        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" 
+                             onclick="this.parentElement.remove()"></div>
+                    `;
+                    document.body.appendChild(tempDiv);
+                }
+            }
+
             applyColorToSubNote(subNoteId, color) {
                 if (!this.currentParentNoteId) return;
-                
+
                 const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
                 if (!parentNote || !parentNote.subNotes) return;
-                
+
                 const subNote = parentNote.subNotes.find(n => n.id === subNoteId);
                 if (subNote) {
                     subNote.color = color;
                     subNote.updatedAt = new Date().toISOString();
                     this.saveNotes();
                     this.renderSubNotesList();
-                    
+
                     // Rimuovi il picker temporaneo
                     const picker = document.querySelector('div[style*="position: fixed"]')?.parentElement;
                     if (picker) picker.remove();
                 }
             }
-            
-            exportBackup() {
+
+            applyColorToSubSubNote(subSubNoteId, color) {
+                if (!this.currentParentNoteId || !this.currentSubParentNoteId) return;
+
+                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
+                if (!parentNote || !parentNote.subNotes) return;
+
+                const subNote = parentNote.subNotes.find(n => n.id === this.currentSubParentNoteId);
+                if (!subNote || !subNote.subNotes) return;
+
+                const subSubNote = subNote.subNotes.find(n => n.id === subSubNoteId);
+                if (subSubNote) {
+                    subSubNote.color = color;
+                    subSubNote.updatedAt = new Date().toISOString();
+                    this.saveNotes();
+                    this.renderSubSubNotesList();
+
+                    // Rimuovi il picker temporaneo
+                    const picker = document.querySelector('div[style*="position: fixed"]')?.parentElement;
+                    if (picker) picker.remove();
+                }
+            }
+
+            setupDragAndDrop() {
+                const editor = document.getElementById('editor');
+                const editorContainer = document.querySelector('.editor-container');
+                const dragOverlay = document.getElementById('drag-overlay');
+                let dragCounter = 0;
+
+                // Prevent default drag behaviors
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    editorContainer.addEventListener(eventName, this.preventDefaults, false);
+                    document.body.addEventListener(eventName, this.preventDefaults, false);
+                });
+
+                // Highlight drop area when item is dragged over it
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    editorContainer.addEventListener(eventName, (e) => {
+                        dragCounter++;
+                        editorContainer.classList.add('drag-over');
+                        dragOverlay.classList.add('active');
+                        console.log('Drag over editor container');
+                    }, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    editorContainer.addEventListener(eventName, (e) => {
+                        dragCounter--;
+                        if (dragCounter === 0) {
+                            editorContainer.classList.remove('drag-over');
+                            dragOverlay.classList.remove('active');
+                        }
+                    }, false);
+                });
+
+                // Handle dropped files
+                editorContainer.addEventListener('drop', (e) => {
+                    console.log('File dropped on editor container');
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    
+                    dragCounter = 0;
+                    editorContainer.classList.remove('drag-over');
+                    dragOverlay.classList.remove('active');
+
+                    this.handleFiles(files);
+                }, false);
+            }
+
+            preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            handleFiles(files) {
+                ([...files]).forEach(this.uploadFile.bind(this));
+            }
+
+            uploadFile(file) {
+                // Verifica che sia un'immagine
+                if (!file.type.startsWith('image/')) {
+                    alert('Puoi caricare solo file immagine (JPG, PNG, GIF, WebP)');
+                    return;
+                }
+
+                // Verifica dimensione (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('L\'immagine è troppo grande. Dimensione massima: 5MB');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imageData = e.target.result;
+                    this.insertImageInEditor(imageData, file.name);
+                    this.showImageUploadSuccess(file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            insertImageInEditor(imageData, fileName) {
+                const editor = document.getElementById('editor');
+                
+                // Crea l'elemento immagine
+                const img = document.createElement('img');
+                img.src = imageData;
+                img.alt = fileName;
+                img.title = fileName;
+                img.className = 'resizable-image';
+                img.style.cssText = `
+                    max-width: 100%;
+                    width: 300px;
+                    height: auto;
+                    border-radius: 8px;
+                    margin: 10px 0;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                    display: block;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                `;
+
+                // Aggiungi eventi per il ridimensionamento
+                this.setupImageResize(img);
+
+                // Crea un paragrafo wrapper per l'immagine
+                const imgWrapper = document.createElement('p');
+                imgWrapper.appendChild(img);
+                
+                // Aggiungi un nuovo paragrafo dopo l'immagine per continuare a scrivere
+                const newParagraph = document.createElement('p');
+                newParagraph.innerHTML = '<br>';
+
+                // Focus sull'editor per assicurarsi che sia attivo
+                editor.focus();
+
+                // Inserisci alla fine del contenuto dell'editor
+                editor.appendChild(imgWrapper);
+                editor.appendChild(newParagraph);
+
+                // Posiziona il cursore nel nuovo paragrafo
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.setStart(newParagraph, 0);
+                range.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                // Trigger auto-save
+                this.autoSave();
+
+                console.log('Immagine inserita nell\'editor:', fileName);
+            }
+
+            setupImageResize(img) {
+                let isResizing = false;
+                let startX, startWidth;
+
+                // Click sull'immagine per selezionarla
+                img.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.selectImage(img);
+                });
+
+                // Previeni la selezione del testo quando si clicca sull'immagine
+                img.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                });
+            }
+
+            selectImage(img) {
+                // Rimuovi selezione precedente
+                this.removeImageSelection();
+
+                // Aggiungi classe di selezione
+                img.classList.add('selected-image');
+
+                // Crea i controlli di ridimensionamento
+                this.createResizeControls(img);
+            }
+
+            removeImageSelection() {
+                // Rimuovi tutte le selezioni precedenti
+                document.querySelectorAll('.selected-image').forEach(img => {
+                    img.classList.remove('selected-image');
+                });
+
+                // Rimuovi controlli esistenti
+                document.querySelectorAll('.image-resize-controls').forEach(control => {
+                    control.remove();
+                });
+            }
+
+            createResizeControls(img) {
+                const controls = document.createElement('div');
+                controls.className = 'image-resize-controls';
+                controls.style.cssText = `
+                    position: absolute;
+                    background: white;
+                    border: 1px solid #3498db;
+                    border-radius: 5px;
+                    padding: 10px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                    z-index: 1000;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 12px;
+                    margin-top: 5px;
+                `;
+
+                // Ottieni la larghezza attuale
+                const currentWidth = parseInt(img.style.width) || img.offsetWidth;
+
+                controls.innerHTML = `
+                    <label style="color: #2c3e50; font-weight: bold;">Larghezza:</label>
+                    <input type="range" 
+                           min="100" 
+                           max="800" 
+                           value="${currentWidth}" 
+                           style="width: 150px;"
+                           class="width-slider">
+                    <input type="number" 
+                           min="100" 
+                           max="800" 
+                           value="${currentWidth}" 
+                           style="width: 60px; padding: 2px; border: 1px solid #bdc3c7; border-radius: 3px;"
+                           class="width-input">
+                    <span style="color: #7f8c8d;">px</span>
+                    <button style="background: #27ae60; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;"
+                            class="size-preset" data-size="200">S</button>
+                    <button style="background: #f39c12; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;"
+                            class="size-preset" data-size="400">M</button>
+                    <button style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;"
+                            class="size-preset" data-size="600">L</button>
+                    <button style="background: #95a5a6; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;"
+                            title="Chiudi" class="close-controls">✕</button>
+                `;
+
+                // Inserisci i controlli dopo l'immagine
+                img.parentNode.insertBefore(controls, img.nextSibling);
+
+                // Aggiungi event listeners
+                const slider = controls.querySelector('.width-slider');
+                const input = controls.querySelector('.width-input');
+                const closeBtn = controls.querySelector('.close-controls');
+                const presetBtns = controls.querySelectorAll('.size-preset');
+
+                // Sincronizza slider e input
+                slider.addEventListener('input', (e) => {
+                    const width = e.target.value;
+                    input.value = width;
+                    this.resizeImage(img, width);
+                });
+
+                input.addEventListener('input', (e) => {
+                    const width = Math.max(100, Math.min(800, parseInt(e.target.value) || 100));
+                    input.value = width;
+                    slider.value = width;
+                    this.resizeImage(img, width);
+                });
+
+                // Preset buttons
+                presetBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const size = parseInt(btn.dataset.size);
+                        slider.value = size;
+                        input.value = size;
+                        this.resizeImage(img, size);
+                    });
+                });
+
+                // Close button
+                closeBtn.addEventListener('click', () => {
+                    this.removeImageSelection();
+                });
+
+                // Chiudi quando si clicca fuori
+                document.addEventListener('click', (e) => {
+                    if (!img.contains(e.target) && !controls.contains(e.target)) {
+                        this.removeImageSelection();
+                    }
+                }, { once: true });
+            }
+
+            resizeImage(img, width) {
+                img.style.width = width + 'px';
+                img.style.height = 'auto';
+                
+                // Aggiungi effetto di feedback visivo
+                img.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    img.style.transform = 'scale(1)';
+                }, 200);
+
+                // Auto-save
+                this.autoSave();
+            }
+
+            setupExistingImages() {
+                // Applica la funzionalità di ridimensionamento alle immagini esistenti
+                const editor = document.getElementById('editor');
+                const images = editor.querySelectorAll('img');
+                
+                images.forEach(img => {
+                    if (!img.classList.contains('resizable-image')) {
+                        img.classList.add('resizable-image');
+                        
+                        // Assicurati che l'immagine abbia stili base
+                        if (!img.style.width) {
+                            img.style.width = '300px';
+                        }
+                        if (!img.style.height) {
+                            img.style.height = 'auto';
+                        }
+                        
+                        this.setupImageResize(img);
+                    }
+                });
+            }
+
+            performAutoBackup() {
                 try {
                     const backupData = {
                         version: "1.0",
                         exportDate: new Date().toISOString(),
                         notes: this.notes,
-                        appName: "MyNotes"
+                        appName: "MyNotes",
+                        isAutoBackup: true
                     };
+
+                    // Salva nel localStorage con timestamp
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const backupKey = `mynotes-auto-backup-${timestamp}`;
                     
-                    const dataStr = JSON.stringify(backupData, null, 2);
-                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                    
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(dataBlob);
-                    link.download = `mynotes-backup-${new Date().toISOString().split('T')[0]}.json`;
-                    
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    alert('Backup esportato con successo!');
+                    localStorage.setItem(backupKey, JSON.stringify(backupData));
+                    localStorage.setItem('mynotes-last-auto-backup', new Date().toISOString());
+
+                    // Mantieni solo gli ultimi 5 backup automatici
+                    this.cleanOldAutoBackups();
+
+                    // Mostra notifica discreta
+                    this.showAutoBackupNotification();
+
+                    console.log('✅ Backup automatico completato:', backupKey);
                 } catch (error) {
-                    console.error('Errore durante l\'esportazione:', error);
-                    alert('Errore durante l\'esportazione del backup.');
+                    console.error('❌ Errore durante il backup automatico:', error);
                 }
             }
-            
-            importBackup(file) {
-                if (!file) return;
-                
-                if (!file.name.endsWith('.json')) {
-                    alert('Per favore seleziona un file JSON valido.');
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const backupData = JSON.parse(e.target.result);
-                        
-                        // Verifica la struttura del backup
-                        if (!backupData.notes || !Array.isArray(backupData.notes)) {
-                            throw new Error('Formato backup non valido');
-                        }
-                        
-                        // Conferma importazione
-                        const confirmMessage = `Vuoi importare questo backup?\n\n` +
-                            `Data esportazione: ${backupData.exportDate ? new Date(backupData.exportDate).toLocaleString('it-IT') : 'Sconosciuta'}\n` +
-                            `Numero di note: ${backupData.notes.length}\n\n` +
-                            `ATTENZIONE: Questo sostituirà tutte le note esistenti!`;
-                        
-                        if (!confirm(confirmMessage)) {
-                            return;
-                        }
-                        
-                        // Importa le note
-                        this.notes = backupData.notes;
-                        this.saveNotes();
-                        this.renderNotesList();
-                        this.closeSubSidebar();
-                        
-                        // Carica la prima nota se disponibile
-                        if (this.notes.length > 0) {
-                            this.loadNote(this.notes[0].id);
-                        } else {
-                            this.createNewNote();
-                        }
-                        
-                        alert(`Backup importato con successo! ${this.notes.length} note ripristinate.`);
-                        
-                    } catch (error) {
-                        console.error('Errore durante l\'importazione:', error);
-                        alert('Errore durante l\'importazione del backup. Verifica che il file sia valido.');
-                    }
-                };
-                
-                reader.readAsText(file);
-                
-                // Reset dell'input file
-                document.getElementById('backup-file-input').value = '';
-            }
-            
-            openSubSidebar(noteId) {
-                this.currentParentNoteId = noteId;
-                const note = this.notes.find(n => n.id === noteId);
-                if (!note) return;
-                
-                // Initialize subNotes array if it doesn't exist
-                if (!note.subNotes) {
-                    note.subNotes = [];
-                    this.saveNotes();
-                }
-                
-                document.getElementById('parent-note-title').textContent = `Sotto-note di: ${note.title}`;
-                document.getElementById('sub-sidebar').classList.add('open');
-                this.isSubSidebarOpen = true;
-                this.renderSubNotesList();
-            }
-            
-            closeSubSidebar() {
-                document.getElementById('sub-sidebar').classList.remove('open');
-                this.isSubSidebarOpen = false;
-                this.currentParentNoteId = null;
-            }
-            
-            createNewSubNote() {
-                if (!this.currentParentNoteId) return;
-                
-                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
-                if (!parentNote) return;
-                
-                const newSubNote = {
-                    id: Date.now().toString(),
-                    title: 'Nuova Sotto-nota',
-                    content: '<p>Inizia a scrivere qui...</p>',
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    color: this.selectedSubColor
-                };
-                
-                if (!parentNote.subNotes) {
-                    parentNote.subNotes = [];
-                }
-                
-                parentNote.subNotes.unshift(newSubNote);
-                this.saveNotes();
-                this.renderSubNotesList();
-                this.renderNotesList(); // Update main sidebar to show expand icon
-                this.loadSubNote(newSubNote.id);
-            }
-            
-            loadSubNote(subNoteId) {
-                if (!this.currentParentNoteId) return;
-                
-                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
-                if (!parentNote || !parentNote.subNotes) return;
-                
-                const subNote = parentNote.subNotes.find(n => n.id === subNoteId);
-                if (!subNote) return;
-                
-                this.currentNoteId = subNoteId;
-                
-                document.getElementById('note-title').value = subNote.title;
-                document.getElementById('editor').innerHTML = subNote.content;
-                
-                // Update active sub-note in sidebar
-                document.querySelectorAll('.sub-note-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                const subNoteItem = document.querySelector(`[data-sub-note-id="${subNoteId}"]`);
-                if (subNoteItem) {
-                    subNoteItem.classList.add('active');
-                }
-                
-                this.updateLastSaved(subNote.updatedAt);
-            }
-            
-            deleteSubNote(subNoteId) {
-                if (!this.currentParentNoteId) return;
-                
-                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
-                if (!parentNote || !parentNote.subNotes) return;
-                
-                if (confirm('Sei sicuro di voler eliminare questa sotto-nota?')) {
-                    parentNote.subNotes = parentNote.subNotes.filter(n => n.id !== subNoteId);
-                    this.saveNotes();
-                    this.renderSubNotesList();
-                    this.renderNotesList(); // Update main sidebar
-                    
-                    if (this.currentNoteId === subNoteId) {
-                        if (parentNote.subNotes.length > 0) {
-                            this.loadSubNote(parentNote.subNotes[0].id);
-                        } else {
-                            this.loadNote(this.currentParentNoteId);
+
+            cleanOldAutoBackups() {
+                try {
+                    // Trova tutti i backup automatici
+                    const autoBackupKeys = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && key.startsWith('mynotes-auto-backup-')) {
+                            autoBackupKeys.push({
+                                key: key,
+                                timestamp: key.replace('mynotes-auto-backup-', '')
+                            });
                         }
                     }
+
+                    // Ordina per timestamp (più recenti prima)
+                    autoBackupKeys.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+                    // Rimuovi i backup più vecchi (mantieni solo i primi 5)
+                    if (autoBackupKeys.length > 5) {
+                        for (let i = 5; i < autoBackupKeys.length; i++) {
+                            localStorage.removeItem(autoBackupKeys[i].key);
+                            console.log('🧹 Rimosso backup vecchio:', autoBackupKeys[i].key);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Errore durante la pulizia dei backup:', error);
                 }
             }
-            
-            renderSubNotesList() {
-                if (!this.currentParentNoteId) return;
-                
-                const parentNote = this.notes.find(n => n.id === this.currentParentNoteId);
-                if (!parentNote) return;
-                
-                const subNotesList = document.getElementById('sub-notes-list');
-                subNotesList.innerHTML = '';
-                
-                const subNotes = parentNote.subNotes || [];
-                
-                subNotes.forEach(subNote => {
-                    const subNoteItem = document.createElement('div');
-                    subNoteItem.className = 'sub-note-item';
-                    subNoteItem.setAttribute('data-sub-note-id', subNote.id);
-                    
-                    const preview = this.getTextPreview(subNote.content);
-                    const date = new Date(subNote.updatedAt).toLocaleDateString('it-IT');
-                    
-                    // Applica il colore della sotto-nota se presente
-                    if (subNote.color) {
-                        subNoteItem.style.borderLeftColor = subNote.color;
-                        subNoteItem.classList.add('has-color');
-                    }
-                    
-                    subNoteItem.innerHTML = `
-                        <h5>${subNote.title}</h5>
-                        <p>${preview} • ${date}</p>
-                        <button class="delete-btn" onclick="app.deleteSubNote('${subNote.id}')" title="Elimina sotto-nota">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button class="sub-color-change-btn" onclick="app.changeSubNoteColor('${subNote.id}')" title="Cambia colore">
-                            <i class="fas fa-palette"></i>
-                        </button>
-                    `;
-                    
-                    subNoteItem.addEventListener('click', (e) => {
-                        if (!e.target.classList.contains('delete-btn') && 
-                            !e.target.classList.contains('sub-color-change-btn') && 
-                            !e.target.classList.contains('fas')) {
-                            this.loadSubNote(subNote.id);
+
+            showAutoBackupNotification() {
+                // Notifica molto discreta che appare brevemente
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: rgba(39, 174, 96, 0.9);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                    z-index: 10000;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-size: 12px;
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: all 0.3s ease;
+                `;
+                notification.innerHTML = `
+                    <i class="fas fa-save" style="margin-right: 6px;"></i>
+                    Backup automatico completato
+                `;
+
+                document.body.appendChild(notification);
+
+                // Animazione di entrata
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateY(0)';
+                }, 100);
+
+                // Rimuovi la notifica dopo 2 secondi
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
                         }
-                    });
-                    
-                    subNotesList.appendChild(subNoteItem);
-                });
+                    }, 300);
+                }, 2000);
+            }
+
+            showImageUploadSuccess(fileName) {
+                // Mostra una notifica di successo
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #27ae60;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-size: 14px;
+                `;
+                notification.innerHTML = `
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                    Immagine "${fileName}" caricata con successo!
+                `;
+
+                document.body.appendChild(notification);
+
+                // Rimuovi la notifica dopo 3 secondi
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 3000);
             }
         }
 
@@ -1256,7 +2298,7 @@
         function formatText(command, value = null) {
             document.execCommand(command, false, value);
             document.getElementById('editor').focus();
-            
+
             // Update toolbar button states
             updateToolbarStates();
         }
@@ -1264,17 +2306,17 @@
         function insertTable() {
             const rows = prompt('Numero di righe:', '3');
             const cols = prompt('Numero di colonne:', '3');
-            
+
             if (rows && cols) {
                 let tableHTML = '<table>';
-                
+
                 // Header row
                 tableHTML += '<tr>';
                 for (let j = 0; j < parseInt(cols); j++) {
                     tableHTML += '<th>Intestazione ' + (j + 1) + '</th>';
                 }
                 tableHTML += '</tr>';
-                
+
                 // Data rows
                 for (let i = 1; i < parseInt(rows); i++) {
                     tableHTML += '<tr>';
@@ -1283,16 +2325,16 @@
                     }
                     tableHTML += '</tr>';
                 }
-                
+
                 tableHTML += '</table><p></p>';
-                
+
                 document.execCommand('insertHTML', false, tableHTML);
             }
         }
 
         function updateToolbarStates() {
             const commands = ['bold', 'italic', 'underline'];
-            
+
             commands.forEach(command => {
                 const button = document.querySelector(`button[onclick="formatText('${command}')"]`);
                 if (button) {
@@ -1310,23 +2352,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 console.log('Inizializzazione app...');
-                
-                // Verifica caricamento CSS
-                const appContainer = document.querySelector('.app-container');
-                const computedStyle = window.getComputedStyle(appContainer);
-                console.log('CSS caricato:', computedStyle.display === 'flex' ? 'SI' : 'NO');
-                console.log('Display attuale:', computedStyle.display);
-                
-                // Forza il layout se necessario
-                if (computedStyle.display !== 'flex') {
-                    console.log('Forzando layout CSS...');
-                    appContainer.style.display = 'flex';
-                    appContainer.style.height = '100vh';
-                }
-                
                 app = new NotesApp();
                 console.log('App inizializzata con successo');
-                console.log('Pulsanti collegati:', document.getElementById('add-note-btn') ? 'SI' : 'NO');
             } catch (error) {
                 console.error('Errore durante l\'inizializzazione:', error);
                 alert('Errore durante l\'avvio dell\'app: ' + error.message);
