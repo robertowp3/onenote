@@ -704,6 +704,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(300px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(300px); }
+        }
+
         .image-resize-controls input[type="range"] {
             -webkit-appearance: none;
             height: 6px;
@@ -858,9 +868,62 @@
     </div>
 
     <script>
+        // Libreria di crittografia AES-256
+        class CryptoUtils {
+            static async generateKey(password) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(password);
+                const hash = await crypto.subtle.digest('SHA-256', data);
+                return await crypto.subtle.importKey(
+                    'raw', hash, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']
+                );
+            }
+
+            static async encrypt(text, password) {
+                try {
+                    const key = await this.generateKey(password);
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(text);
+                    const iv = crypto.getRandomValues(new Uint8Array(12));
+                    
+                    const encrypted = await crypto.subtle.encrypt(
+                        { name: 'AES-GCM', iv: iv }, key, data
+                    );
+                    
+                    const result = new Uint8Array(iv.length + encrypted.byteLength);
+                    result.set(iv);
+                    result.set(new Uint8Array(encrypted), iv.length);
+                    
+                    return btoa(String.fromCharCode(...result));
+                } catch (error) {
+                    console.error('Errore durante la crittografia:', error);
+                    throw new Error('Errore durante la crittografia dei dati');
+                }
+            }
+
+            static async decrypt(encryptedText, password) {
+                try {
+                    const key = await this.generateKey(password);
+                    const data = new Uint8Array(atob(encryptedText).split('').map(char => char.charCodeAt(0)));
+                    const iv = data.slice(0, 12);
+                    const encrypted = data.slice(12);
+                    
+                    const decrypted = await crypto.subtle.decrypt(
+                        { name: 'AES-GCM', iv: iv }, key, encrypted
+                    );
+                    
+                    const decoder = new TextDecoder();
+                    return decoder.decode(decrypted);
+                } catch (error) {
+                    console.error('Errore durante la decrittografia:', error);
+                    throw new Error('Password errata o dati corrotti');
+                }
+            }
+        }
+
         class NotesApp {
             constructor() {
-                this.notes = JSON.parse(localStorage.getItem('notes')) || [];
+                this.notes = [];
                 this.currentNoteId = null;
                 this.currentParentNoteId = null;
                 this.currentSubParentNoteId = null;
@@ -871,11 +934,22 @@
                 this.selectedColor = '#3498db';
                 this.selectedSubColor = '#3498db';
                 this.selectedSubSubColor = '#e67e22';
+                this.encryptionPassword = null;
+                this.isEncryptionEnabled = false;
 
                 this.init();
             }
 
-            init() {
+            async init() {
+                // Verifica se esistono dati crittografati
+                const hasEncryptedData = localStorage.getItem('mynotes-encrypted') === 'true';
+                
+                if (hasEncryptedData) {
+                    await this.promptForDecryption();
+                } else {
+                    await this.promptForEncryptionSetup();
+                }
+
                 this.bindEvents();
                 this.renderNotesList();
 
@@ -907,6 +981,147 @@
 
                 // Setup existing images
                 this.setupExistingImages();
+            }
+
+            async promptForEncryptionSetup() {
+                const choice = confirm(
+                    '🔒 SICUREZZA DEI DATI 🔒\n\n' +
+                    'Vuoi attivare la crittografia per proteggere le tue note?\n\n' +
+                    '✅ SÌ: Le tue note saranno crittografate con password AES-256\n' +
+                    '❌ NO: Le note rimarranno in chiaro (meno sicuro)\n\n' +
+                    'Clicca OK per attivare la crittografia, Annulla per continuare senza.'
+                );
+
+                if (choice) {
+                    await this.setupEncryption();
+                } else {
+                    // Carica dati non crittografati esistenti
+                    this.notes = JSON.parse(localStorage.getItem('notes')) || [];
+                    this.isEncryptionEnabled = false;
+                }
+            }
+
+            async setupEncryption() {
+                const password = prompt(
+                    '🔑 IMPOSTA PASSWORD DI CRITTOGRAFIA\n\n' +
+                    'Crea una password sicura per proteggere le tue note:\n' +
+                    '• Minimo 8 caratteri\n' +
+                    '• Usa lettere, numeri e simboli\n' +
+                    '• RICORDA: Se perdi questa password, perderai TUTTE le note!\n\n' +
+                    'Inserisci la password:'
+                );
+
+                if (!password || password.length < 8) {
+                    alert('❌ Password troppo corta! Minimo 8 caratteri richiesti.');
+                    return await this.setupEncryption();
+                }
+
+                const confirmPassword = prompt('🔑 CONFERMA PASSWORD\n\nReinserisci la password per conferma:');
+                
+                if (password !== confirmPassword) {
+                    alert('❌ Le password non coincidono!');
+                    return await this.setupEncryption();
+                }
+
+                this.encryptionPassword = password;
+                this.isEncryptionEnabled = true;
+
+                // Migra eventuali dati esistenti
+                const existingNotes = JSON.parse(localStorage.getItem('notes')) || [];
+                if (existingNotes.length > 0) {
+                    const migrate = confirm(
+                        `📦 MIGRAZIONE DATI\n\n` +
+                        `Trovate ${existingNotes.length} note esistenti.\n` +
+                        `Vuoi crittografarle e mantenerle?\n\n` +
+                        `✅ SÌ: Le note verranno crittografate\n` +
+                        `❌ NO: Si inizierà con un'app vuota`
+                    );
+
+                    if (migrate) {
+                        this.notes = existingNotes;
+                        await this.saveNotes();
+                        // Rimuovi i dati non crittografati
+                        localStorage.removeItem('notes');
+                    }
+                }
+
+                localStorage.setItem('mynotes-encrypted', 'true');
+                
+                alert(
+                    '✅ CRITTOGRAFIA ATTIVATA!\n\n' +
+                    '🔒 Le tue note sono ora protette con crittografia AES-256\n' +
+                    '💾 Backup automatici crittografati attivati\n' +
+                    '⚠️ IMPORTANTE: Salva la password in un luogo sicuro!'
+                );
+            }
+
+            async promptForDecryption() {
+                const password = prompt(
+                    '🔓 ACCESSO SICURO\n\n' +
+                    'Le tue note sono protette da crittografia.\n' +
+                    'Inserisci la password per accedere:'
+                );
+
+                if (!password) {
+                    alert('❌ Password richiesta per accedere alle note crittografate.');
+                    return await this.promptForDecryption();
+                }
+
+                try {
+                    await this.loadEncryptedNotes(password);
+                    this.encryptionPassword = password;
+                    this.isEncryptionEnabled = true;
+                    
+                    // Mostra notifica di accesso riuscito
+                    this.showSecurityNotification('✅ Accesso autorizzato! Note decrittografate.', 'success');
+                } catch (error) {
+                    alert('❌ Password errata! Riprova.');
+                    return await this.promptForDecryption();
+                }
+            }
+
+            async loadEncryptedNotes(password) {
+                const encryptedData = localStorage.getItem('notes-encrypted');
+                if (!encryptedData) {
+                    this.notes = [];
+                    return;
+                }
+
+                const decryptedData = await CryptoUtils.decrypt(encryptedData, password);
+                this.notes = JSON.parse(decryptedData);
+            }
+
+            showSecurityNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                const bgColor = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+                
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${bgColor};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-size: 14px;
+                    max-width: 350px;
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                notification.innerHTML = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
             }
 
             bindEvents() {
@@ -1033,14 +1248,7 @@
                 }, 100);
 
                 // Update active note in sidebar
-                document.querySelectorAll('.note-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                const noteItem = document.querySelector(`[data-note-id="${noteId}"]`);
-                if (noteItem) {
-                    noteItem.classList.add('active');
-                }
+                this.updateActiveNoteInSidebar(noteId);
 
                 this.updateLastSaved(note.updatedAt);
             }
@@ -1122,8 +1330,24 @@
                 }
             }
 
-            saveNotes() {
-                localStorage.setItem('notes', JSON.stringify(this.notes));
+            async saveNotes() {
+                if (this.isEncryptionEnabled && this.encryptionPassword) {
+                    try {
+                        const dataToEncrypt = JSON.stringify(this.notes);
+                        const encryptedData = await CryptoUtils.encrypt(dataToEncrypt, this.encryptionPassword);
+                        localStorage.setItem('notes-encrypted', encryptedData);
+                        localStorage.setItem('mynotes-encrypted', 'true');
+                        
+                        // Rimuovi eventuali dati non crittografati
+                        localStorage.removeItem('notes');
+                    } catch (error) {
+                        console.error('Errore durante il salvataggio crittografato:', error);
+                        alert('❌ Errore durante il salvataggio sicuro. Riprova.');
+                    }
+                } else {
+                    // Fallback per dati non crittografati
+                    localStorage.setItem('notes', JSON.stringify(this.notes));
+                }
             }
 
             renderNotesList() {
@@ -1206,6 +1430,19 @@
                 }
                 
                 document.getElementById('last-saved').textContent = `Ultima modifica: ${formatted}${backupText}`;
+            }
+
+            updateActiveNoteInSidebar(noteId) {
+                // Rimuovi active da tutte le note
+                document.querySelectorAll('.note-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Aggiungi active alla nota corrente
+                const noteItem = document.querySelector(`[data-note-id="${noteId}"]`);
+                if (noteItem) {
+                    noteItem.classList.add('active');
+                }
             }
 
             toggleColorPicker() {
@@ -1330,56 +1567,112 @@
                 document.querySelector(`.sub-sub-color-btn[data-color="${color}"]`).classList.add('selected');
             }
 
-            exportBackup() {
+            async exportBackup() {
                 try {
                     const backupData = {
-                        version: "1.0",
+                        version: "2.0",
                         exportDate: new Date().toISOString(),
                         notes: this.notes,
-                        appName: "MyNotes"
+                        appName: "MyNotes",
+                        encrypted: this.isEncryptionEnabled
                     };
 
-                    const dataStr = JSON.stringify(backupData, null, 2);
-                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    let dataStr;
+                    let fileName;
 
+                    if (this.isEncryptionEnabled && this.encryptionPassword) {
+                        // Backup crittografato
+                        const encryptedBackup = await CryptoUtils.encrypt(JSON.stringify(backupData), this.encryptionPassword);
+                        dataStr = JSON.stringify({
+                            version: "2.0",
+                            exportDate: new Date().toISOString(),
+                            appName: "MyNotes",
+                            encrypted: true,
+                            data: encryptedBackup
+                        }, null, 2);
+                        fileName = `mynotes-secure-backup-${new Date().toISOString().split('T')[0]}.json`;
+                        
+                        this.showSecurityNotification('🔒 Backup crittografato esportato con successo!', 'success');
+                    } else {
+                        // Backup non crittografato
+                        dataStr = JSON.stringify(backupData, null, 2);
+                        fileName = `mynotes-backup-${new Date().toISOString().split('T')[0]}.json`;
+                        
+                        alert('✅ Backup esportato con successo!');
+                    }
+
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(dataBlob);
-                    link.download = `mynotes-backup-${new Date().toISOString().split('T')[0]}.json`;
+                    link.download = fileName;
 
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
 
-                    alert('Backup esportato con successo!');
                 } catch (error) {
                     console.error('Errore durante l\'esportazione:', error);
-                    alert('Errore durante l\'esportazione del backup.');
+                    alert('❌ Errore durante l\'esportazione del backup.');
                 }
             }
 
-            importBackup(file) {
+            async importBackup(file) {
                 if (!file) return;
 
                 if (!file.name.endsWith('.json')) {
-                    alert('Per favore seleziona un file JSON valido.');
+                    alert('❌ Per favore seleziona un file JSON valido.');
                     return;
                 }
 
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = async (e) => {
                     try {
-                        const backupData = JSON.parse(e.target.result);
+                        const rawBackupData = JSON.parse(e.target.result);
+
+                        let backupData;
+                        let isEncryptedBackup = false;
+
+                        // Verifica se il backup è crittografato (versione 2.0+)
+                        if (rawBackupData.encrypted && rawBackupData.data) {
+                            isEncryptedBackup = true;
+                            
+                            const password = prompt(
+                                '🔓 BACKUP CRITTOGRAFATO\n\n' +
+                                'Questo backup è protetto da crittografia.\n' +
+                                'Inserisci la password per decrittografarlo:'
+                            );
+
+                            if (!password) {
+                                alert('❌ Password richiesta per importare backup crittografato.');
+                                return;
+                            }
+
+                            try {
+                                const decryptedData = await CryptoUtils.decrypt(rawBackupData.data, password);
+                                backupData = JSON.parse(decryptedData);
+                            } catch (error) {
+                                alert('❌ Password errata o backup corrotto!');
+                                return;
+                            }
+                        } else {
+                            // Backup non crittografato (versione 1.0)
+                            backupData = rawBackupData;
+                        }
 
                         // Verifica la struttura del backup
                         if (!backupData.notes || !Array.isArray(backupData.notes)) {
                             throw new Error('Formato backup non valido');
                         }
 
+                        const encryptionStatus = isEncryptedBackup ? '🔒 Crittografato' : '🔓 Non crittografato';
+                        
                         // Conferma importazione
-                        const confirmMessage = `Vuoi importare questo backup?\n\n` +
+                        const confirmMessage = `🔄 IMPORTAZIONE BACKUP\n\n` +
                             `Data esportazione: ${backupData.exportDate ? new Date(backupData.exportDate).toLocaleString('it-IT') : 'Sconosciuta'}\n` +
-                            `Numero di note: ${backupData.notes.length}\n\n` +
-                            `ATTENZIONE: Questo sostituirà tutte le note esistenti!`;
+                            `Numero di note: ${backupData.notes.length}\n` +
+                            `Tipo: ${encryptionStatus}\n\n` +
+                            `⚠️ ATTENZIONE: Questo sostituirà tutte le note esistenti!\n\n` +
+                            `Vuoi continuare?`;
 
                         if (!confirm(confirmMessage)) {
                             return;
@@ -1387,7 +1680,7 @@
 
                         // Importa le note
                         this.notes = backupData.notes;
-                        this.saveNotes();
+                        await this.saveNotes();
                         this.renderNotesList();
                         this.closeSubSidebar();
                         this.closeSubSubSidebar();
@@ -1399,11 +1692,15 @@
                             this.createNewNote();
                         }
 
-                        alert(`Backup importato con successo! ${this.notes.length} note ripristinate.`);
+                        const securityMessage = isEncryptedBackup ? 
+                            `🔒 Backup crittografato importato! ${this.notes.length} note ripristinate.` :
+                            `📦 Backup importato! ${this.notes.length} note ripristinate.`;
+                        
+                        this.showSecurityNotification(securityMessage, 'success');
 
                     } catch (error) {
                         console.error('Errore durante l\'importazione:', error);
-                        alert('Errore durante l\'importazione del backup. Verifica che il file sia valido.');
+                        alert('❌ Errore durante l\'importazione del backup. Verifica che il file sia valido.');
                     }
                 };
 
@@ -2160,21 +2457,39 @@
                 });
             }
 
-            performAutoBackup() {
+            async performAutoBackup() {
                 try {
                     const backupData = {
-                        version: "1.0",
+                        version: "2.0",
                         exportDate: new Date().toISOString(),
                         notes: this.notes,
                         appName: "MyNotes",
-                        isAutoBackup: true
+                        isAutoBackup: true,
+                        encrypted: this.isEncryptionEnabled
                     };
+
+                    let finalBackupData;
+                    
+                    if (this.isEncryptionEnabled && this.encryptionPassword) {
+                        // Backup automatico crittografato
+                        const encryptedData = await CryptoUtils.encrypt(JSON.stringify(backupData), this.encryptionPassword);
+                        finalBackupData = {
+                            version: "2.0",
+                            exportDate: new Date().toISOString(),
+                            appName: "MyNotes",
+                            encrypted: true,
+                            isAutoBackup: true,
+                            data: encryptedData
+                        };
+                    } else {
+                        finalBackupData = backupData;
+                    }
 
                     // Salva nel localStorage con timestamp
                     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
                     const backupKey = `mynotes-auto-backup-${timestamp}`;
                     
-                    localStorage.setItem(backupKey, JSON.stringify(backupData));
+                    localStorage.setItem(backupKey, JSON.stringify(finalBackupData));
                     localStorage.setItem('mynotes-last-auto-backup', new Date().toISOString());
 
                     // Mantieni solo gli ultimi 5 backup automatici
@@ -2183,7 +2498,8 @@
                     // Mostra notifica discreta
                     this.showAutoBackupNotification();
 
-                    console.log('✅ Backup automatico completato:', backupKey);
+                    const securityStatus = this.isEncryptionEnabled ? 'crittografato' : 'completato';
+                    console.log(`✅ Backup automatico ${securityStatus}:`, backupKey);
                 } catch (error) {
                     console.error('❌ Errore durante il backup automatico:', error);
                 }
@@ -2221,11 +2537,15 @@
             showAutoBackupNotification() {
                 // Notifica molto discreta che appare brevemente
                 const notification = document.createElement('div');
+                const bgColor = this.isEncryptionEnabled ? 'rgba(52, 152, 219, 0.9)' : 'rgba(39, 174, 96, 0.9)';
+                const icon = this.isEncryptionEnabled ? 'fas fa-shield-alt' : 'fas fa-save';
+                const message = this.isEncryptionEnabled ? 'Backup sicuro completato' : 'Backup automatico completato';
+                
                 notification.style.cssText = `
                     position: fixed;
                     bottom: 20px;
                     right: 20px;
-                    background: rgba(39, 174, 96, 0.9);
+                    background: ${bgColor};
                     color: white;
                     padding: 8px 16px;
                     border-radius: 20px;
@@ -2238,8 +2558,8 @@
                     transition: all 0.3s ease;
                 `;
                 notification.innerHTML = `
-                    <i class="fas fa-save" style="margin-right: 6px;"></i>
-                    Backup automatico completato
+                    <i class="${icon}" style="margin-right: 6px;"></i>
+                    ${message}
                 `;
 
                 document.body.appendChild(notification);
