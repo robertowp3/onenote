@@ -699,6 +699,26 @@
             animation: fadeIn 0.3s ease;
         }
 
+        /* Stili per i link nelle note */
+        .editor a {
+            color: #3498db;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .editor a:hover {
+            color: #2980b9;
+            text-decoration: none;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .editor a:visited {
+            color: #8e44ad;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1240,7 +1260,10 @@
                 this.noteLevel = 0;
 
                 document.getElementById('note-title').value = note.title;
-                document.getElementById('editor').innerHTML = note.content;
+                
+                // Converti i link prima di caricare il contenuto
+                const contentWithLinks = this.convertLinksToClickable(note.content);
+                document.getElementById('editor').innerHTML = contentWithLinks;
 
                 // Setup immagini nel contenuto caricato
                 setTimeout(() => {
@@ -1274,7 +1297,10 @@
                 if (!this.currentNoteId) return;
 
                 const title = document.getElementById('note-title').value;
-                const content = document.getElementById('editor').innerHTML;
+                let content = document.getElementById('editor').innerHTML;
+                
+                // Converti automaticamente i link in testo cliccabile
+                content = this.convertLinksToClickable(content);
 
                 if (this.noteLevel === 2) {
                     // Sub-sub-note
@@ -1295,6 +1321,11 @@
                         this.saveNotes();
                         this.renderSubSubNotesList();
                         this.updateLastSaved(subSubNote.updatedAt);
+                        
+                        // Aggiorna l'editor con i link cliccabili
+                        setTimeout(() => {
+                            document.getElementById('editor').innerHTML = content;
+                        }, 100);
                     }
                 } else if (this.noteLevel === 1) {
                     // Sub-note
@@ -1312,6 +1343,11 @@
                         this.saveNotes();
                         this.renderSubNotesList();
                         this.updateLastSaved(subNote.updatedAt);
+                        
+                        // Aggiorna l'editor con i link cliccabili
+                        setTimeout(() => {
+                            document.getElementById('editor').innerHTML = content;
+                        }, 100);
                     }
                 } else {
                     // Regular note
@@ -1326,6 +1362,11 @@
                         this.saveNotes();
                         this.renderNotesList();
                         this.updateLastSaved(note.updatedAt);
+                        
+                        // Aggiorna l'editor con i link cliccabili
+                        setTimeout(() => {
+                            document.getElementById('editor').innerHTML = content;
+                        }, 100);
                     }
                 }
             }
@@ -1832,7 +1873,10 @@
                 this.currentSubParentNoteId = null;
 
                 document.getElementById('note-title').value = subNote.title;
-                document.getElementById('editor').innerHTML = subNote.content;
+                
+                // Converti i link prima di caricare il contenuto
+                const contentWithLinks = this.convertLinksToClickable(subNote.content);
+                document.getElementById('editor').innerHTML = contentWithLinks;
 
                 // Update active sub-note in sidebar
                 document.querySelectorAll('.sub-note-item').forEach(item => {
@@ -1863,7 +1907,10 @@
                 this.noteLevel = 2;
 
                 document.getElementById('note-title').value = subSubNote.title;
-                document.getElementById('editor').innerHTML = subSubNote.content;
+                
+                // Converti i link prima di caricare il contenuto
+                const contentWithLinks = this.convertLinksToClickable(subSubNote.content);
+                document.getElementById('editor').innerHTML = contentWithLinks;
 
                 // Update active sub-sub-note in sidebar
                 document.querySelectorAll('.sub-sub-note-item').forEach(item => {
@@ -2611,6 +2658,39 @@
                         notification.parentNode.removeChild(notification);
                     }
                 }, 3000);
+            }
+
+            convertLinksToClickable(content) {
+                // Regex per trovare URL (http, https, www)
+                const urlRegex = /(https?:\/\/[^\s<>"]+|www\.[^\s<>"]+)/gi;
+                
+                // Sostituisci gli URL trovati con link cliccabili
+                return content.replace(urlRegex, (url) => {
+                    // Se l'URL è già dentro un tag <a>, non modificarlo
+                    if (content.indexOf(url) > 0) {
+                        const beforeUrl = content.substring(0, content.indexOf(url));
+                        if (beforeUrl.lastIndexOf('<a') > beforeUrl.lastIndexOf('</a>')) {
+                            return url; // È già dentro un tag <a>
+                        }
+                    }
+                    
+                    let href = url;
+                    let displayUrl = url;
+                    
+                    // Aggiungi http:// se l'URL inizia con www
+                    if (url.startsWith('www.')) {
+                        href = 'http://' + url;
+                    }
+                    
+                    // Limita la lunghezza del testo visualizzato
+                    if (displayUrl.length > 50) {
+                        displayUrl = displayUrl.substring(0, 47) + '...';
+                    }
+                    
+                    return `<a href="${href}" target="_blank" rel="noopener noreferrer" 
+                            style="color: #3498db; text-decoration: underline; cursor: pointer;"
+                            title="${url}">${displayUrl}</a>`;
+                });
             }
         }
 
